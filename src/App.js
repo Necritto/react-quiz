@@ -1,9 +1,13 @@
-import React from 'react';
+import React from 'react'
+import Layout from './hoc/Layout/Layout'
+import Quiz from './containers/Quiz/Quiz'
 
 function App() {
   return (
     <div>
-      <h1>Initial Commit</h1>
+      <Layout>
+        <Quiz />
+      </Layout>
     </div>
   );
 }
