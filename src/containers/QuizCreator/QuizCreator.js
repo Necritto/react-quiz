@@ -9,6 +9,7 @@ import Axios from '../../axios/axios-quiz'
 function createOptionControl(number) {
   return createControl({
     label: `Option ${number}`,
+    id: number,
     errorMessage: 'Value cannot be empty!'
   }, { required: true })
 }
