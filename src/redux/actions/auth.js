@@ -9,10 +9,10 @@ export function auth(email, password, isLogin) {
       returnSecureToken: true
     }
 
-    let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key= AIzaSyCT_9C5y-MnWg6dXh8PZyt6dRDwabcqpMM '
+    let url = 'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=[API=KEY]'
 
     if (isLogin) {
-      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key= AIzaSyCT_9C5y-MnWg6dXh8PZyt6dRDwabcqpMM '
+      url = 'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=[API=KEY]'
     }
 
     const response = await Axios.post(url, authData)
@@ -50,5 +50,23 @@ export function authSuccess(token) {
   return {
     type: AUTH_SUCCESS,
     token
+  }
+}
+
+export function autoLogin() {
+  return dispatch => {
+    const token = localStorage.getItem('token')
+
+    if (!token) {
+      dispatch(logout())
+    } else {
+      const expirationDate = new Date(localStorage.getItem('expirationDate'))
+      if (expirationDate <= new Date()) {
+        dispatch(logout())
+      } else {
+        dispatch(authSuccess(token))
+        dispatch(autoLogout((expirationDate.getTime() - new Date().getTime()) / 1000))
+      }
+    }
   }
 }
